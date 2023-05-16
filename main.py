@@ -13,91 +13,92 @@ pattern= "*.mp3"
 
 mixer.init()
 
-prev_image=tk.PhotoImage(file="prev_img.png")
+Previous=tk.PhotoImage(file="prev_img.png")
 stop_image=tk.PhotoImage(file="stop_img.png")
-play_image=tk.PhotoImage(file="play_img.png")
-pause_image=tk.PhotoImage(file="pause_img.png")
-next_image=tk.PhotoImage(file="next_img.png")
+Play=tk.PhotoImage(file="play_img.png")
+Pause=tk.PhotoImage(file="pause_img.png")
+Next=tk.PhotoImage(file="next_img.png")
 
 #Function for Selecting music from given list
 
-def select():
-    label.config(text=listBox.get("anchor"))
-    mixer.music.load(rootpath+"\\"+listBox.get("anchor"))
+def Select():
+    label.config(text=List.get("anchor"))
+    mixer.music.load(rootpath+"\\"+List.get("anchor"))
     mixer.music.play()
 
 #Function for creating stop Button to stop music
 
-def stop():
+def Stop():
     mixer.music.stop()
-    listBox.select_clear('active')
+    List.select_clear('active')
 
 #Function for creating next Button to skip to next song
 
-def play_next():
-    next_song=listBox.curselection()
+def PlayNext():
+    next_song=List.curselection()
     next_song= next_song[0]+1
-    next_song_name= listBox.get(next_song)
+    next_song_name= List.get(next_song)
     label.config(text=next_song_name)
 
     mixer.music.load(rootpath+"\\"+next_song_name)
     mixer.music.play()
 
-    listBox.select_clear(0,'end')
-    listBox.activate(next_song)
-    listBox.select_set(next_song)
+    List.select_clear(0,'end')
+    List.activate(next_song)
+    List.select_set(next_song)
 
 #Function for creating play Button to play music
-def play_prev():
-    next_song=listBox.curselection()
+def PreviousSong():
+    next_song=List.curselection()
     next_song= next_song[0]-1
-    next_song_name= listBox.get(next_song)
+    next_song_name= List.get(next_song)
     label.config(text=next_song_name)
 
     mixer.music.load(rootpath+"\\"+next_song_name)
     mixer.music.play()
 
-    listBox.select_clear(0,'end')
-    listBox.activate(next_song)
-    listBox.select_set(next_song)
+    List.select_clear(0,'end')
+    List.activate(next_song)
+    List.select_set(next_song)
 
 #Function for creating pause Button to pause the current song
     
-def pause_song():
-    if pauseButton["text"]=="Pause":
+def PauseMusic():
+    if PauseButton["text"]=="Pause":
         mixer.music.pause()
-        pauseButton["text"]="Play"
+        PauseButton["text"]="Play"
     else:
         mixer.music.unpause()
-        pauseButton["text"]="Pause"
+        PauseButton["text"]="Pause"
 
-listBox=tk.Listbox(player,fg="purple",bg="pink",width=100,font=('Bhineka',18))
-listBox.pack(padx=15,pady=15)
+List=tk.Listbox(player,fg="purple",bg="pink",width=100,font=('Bhineka',18))
+List.pack(padx=15,pady=15)
 
 label= tk.Label(player,text='',bg='black',fg='yellow',font=('ds_digital',18))
 label.pack(pady=15)
 
-top=tk.Frame(player,bg="dark blue")
-top.pack(padx=10,pady=5,anchor='center')
+Top=tk.Frame(player,bg="dark blue")
+Top.pack(padx=10,pady=5,anchor='center')
 
-prevButton=tk.Button(player,text="prev",image=prev_image,bg='dark blue',borderwidth=0,command=play_prev)
-prevButton.pack(pady=15,in_=top,side='left')
+PreviousButton=tk.Button(player,text="prev",image=Previous,bg='dark blue',borderwidth=0,command=PreviousSong)
+PreviousButton.pack(pady=15,in_=Top,side='left')
 
-stopButton=tk.Button(player,text="stop",image=stop_image,bg='brown',borderwidth=0,command=stop)
-stopButton.pack(pady=15,in_=top,side='left')
+stopButton=tk.Button(player,text="stop",image=stop_image,bg='brown',borderwidth=0,command=Stop)
+stopButton.pack(pady=15,in_=Top,side='left')
 
-playButton=tk.Button(player,text="prev",image=play_image,bg='dark green',borderwidth=0,command=select)
-playButton.pack(pady=15,in_=top,side='left')
 
-pauseButton=tk.Button(player,text="prev",image=pause_image,bg='orange',borderwidth=0,command=pause_song)
-pauseButton.pack(pady=15,in_=top,side='left')
+PlayButton=tk.Button(player,text="prev",image=Play,bg='dark green',borderwidth=0,command=Select)
+PlayButton.pack(pady=15,in_=Top,side='left')
 
-nextButton=tk.Button(player,text="prev",image=next_image,bg='dark blue',borderwidth=0,command=play_next)
-nextButton.pack(pady=15,in_=top,side='left')
+PauseButton=tk.Button(player,text="prev",image=Pause,bg='orange',borderwidth=0,command=PauseMusic)
+PauseButton.pack(pady=15,in_=Top,side='left')
+
+NextButton=tk.Button(player,text="prev",image=Next,bg='dark blue',borderwidth=0,command=PlayNext)
+NextButton.pack(pady=15,in_=Top,side='left')
 
 for root,dirs,files in os.walk(rootpath):
     for filename in fnmatch.filter(files,pattern):
-        listBox.insert('end',filename)
+        List.insert('end',filename)
 
 
 player.mainloop()
